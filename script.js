@@ -1,83 +1,183 @@
-let isPlaying = false;
-let currentStep = 0;
-let playbackInterval = null;
-let bpm = 120;
-
-function allowDrop(ev) { ev.preventDefault(); }
-function drag(ev) { ev.dataTransfer.setData("imageSrc", ev.target.src); }
-
-function dragEnter(ev) {
-    ev.preventDefault();
-    let target = ev.target;
-    if (target.tagName === "IMG") target = target.parentElement;
-    if (target.classList.contains('drop-zone')) target.classList.add('drag-over');
+/* --- Basis-Design --- */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    background-color: #f6f8fa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-function dragLeave(ev) {
-    let target = ev.target;
-    if (target.tagName === "IMG") target = target.parentElement;
-    if (target.classList.contains('drop-zone')) target.classList.remove('drag-over');
+header {
+    background-color: #24292e;
+    color: white;
+    width: 100%;
+    padding: 1px 0;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-function drop(ev) {
-    ev.preventDefault();
-    let target = ev.target;
-    if (target.tagName === "IMG") target = target.parentElement;
-    target.classList.remove('drag-over');
-    const src = ev.dataTransfer.getData("imageSrc");
-    if (target.classList.contains('drop-zone')) {
-        target.innerHTML = "";
-        const newImg = document.createElement("img");
-        newImg.src = src;
-        target.appendChild(newImg);
-    }
+/* --- Die Tabelle --- */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(8, 100px);
+    grid-template-rows: repeat(2, 100px);
+    gap: 0;
+    margin: 30px auto 5px;
+    border: 3px solid #333;
+    background-color: #333; /* Wirkt als Gitterlinie */
 }
 
-function togglePlay() {
-    if (isPlaying) stopSequencer();
-    else {
-        isPlaying = true;
-        document.getElementById("play-btn").innerText = "Pause";
-        startSequencer();
-    }
+.cell {
+    width: 100px;
+    height: 100px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Grund-Design der Zelle */
+    border: 1px solid #333;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative; /* WICHTIG: Erlaubt das Positionieren des Hover-Effekts */
 }
 
-function startSequencer() {
-    const stepDuration = (60 / bpm) * 500;
-    playbackInterval = setInterval(() => {
-        const zones = document.querySelectorAll('.drop-zone');
-        zones.forEach(z => z.classList.remove('active'));
-        zones[currentStep].classList.add('active');
-        playClick();
-        currentStep = (currentStep + 1) % 8;
-    }, stepDuration);
+/* Obere Zeile (Fest) */
+.cell.header {
+    background-color: #f1f3f5;
+    color: #586069;
+    font-size: 3rem; /* <-- Hier kannst du die Schriftgröße ändern (z.B. 2.5rem oder 3rem) */
+    font-weight: bold;
 }
 
-function stopSequencer() {
-    isPlaying = false;
-    clearInterval(playbackInterval);
-    document.getElementById("play-btn").innerText = "Play";
-    document.querySelectorAll('.drop-zone').forEach(z => z.classList.remove('active'));
-    currentStep = 0;
+/* Bilder innerhalb der Zelle */
+.cell img {
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+    pointer-events: none;
+    z-index: 1; /* Liegt ÜBER dem Hover-Effekt */
 }
 
-function updateBPM(val) {
-    bpm = val;
-    document.getElementById("bpm-value").innerText = val;
-    if (isPlaying) { clearInterval(playbackInterval); startSequencer(); }
+/* --- Der NEUE Hover-Effekt (beim Ziehen über die Zelle) --- */
+
+/* 1. Wir nutzen ein 'Pseudo-Element', um die Form zu erzeugen, ohne das HTML zu ändern */
+.cell.drop-zone.drag-over::after {
+    content: ''; /* Erzeugt ein leeres Element */
+    position: absolute;
+    /* Positionierung innerhalb der Zelle mit etwas Abstand (5px) zum Rand */
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    
+    /* --- Deine Wunsch-Form --- */
+    background-color: rgba(219, 237, 255, 0.7); /* Deine gute blaue Farbe (halb-transparent) */
+    border: 3px dashed #0366d6;                  /* GESTRICHELTE Kontur in kräftigem Blau */
+    border-radius: 15px;                        /* RUNDE Ecken */
+    
+    z-index: 0; /* Liegt UNTER dem eingefügten Bild */
+    
+    /* Optionale kleine Animation für das "Aufleuchten" */
+    animation: pulseHover 1.5s infinite;
 }
 
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-function playClick() {
-    const osc = audioCtx.createOscillator();
-    const env = audioCtx.createGain();
-    osc.frequency.setValueAtTime(currentStep % 4 === 0 ? 880 : 440, audioCtx.currentTime);
-    env.gain.setValueAtTime(0.05, audioCtx.currentTime);
-    env.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-    osc.connect(env); env.connect(audioCtx.destination);
-    osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+/* Kleiner Puls-Effekt für das Aufleuchten */
+@keyframes pulseHover {
+    0% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.02); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.7; }
 }
 
-function clearAll() {
-    document.querySelectorAll('.drop-zone').forEach(z => z.innerHTML = "");
+/* --- Palette & Buttons --- */
+.palette-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 900px;
+    margin-top: 0px;
+}
+
+.symbol-palette {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Zentriert die Bilder */
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: white;
+    border: 1px solid #d1d5da;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+
+.draggable-img {
+    width: 60px;
+    height: 60px;
+    cursor: grab;
+    transition: transform 0.2s;
+}
+
+.draggable-img:hover {
+    transform: scale(1.15);
+}
+
+.clear-btn {
+    padding: 10px 25px;
+    background-color: #d73a49;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.clear-btn:hover {
+    background-color: #b31d28;
+}
+
+/* ... Deine bisherigen Styles bleiben ... */
+
+.controls-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin: 20px 0;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #d1d5da;
+}
+
+.control-btn {
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+    border: 1px solid #d1d5da;
+    background: #fafbfc;
+}
+
+#play-btn {
+    background-color: #2ea44f;
+    color: white;
+    border: none;
+}
+
+/* Der Sequencer-Effekt: Die Zelle leuchtet gelb/orange auf */
+.cell.active {
+    background-color: #fff9c4 !important;
+    outline: 4px solid #fbc02d;
+    z-index: 5;
+    transform: scale(1.05);
+    transition: all 0.1s ease;
+}
+
+.tempo-controls {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+    color: #586069;
 }

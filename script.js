@@ -48,3 +48,7 @@ function drop(ev) {
         target.appendChild(newImg);
     }
 }
+function clearAll() {
+    const zones = document.querySelectorAll('.drop-zone');
+    zones.forEach(zone => zone.innerHTML = "");
+}

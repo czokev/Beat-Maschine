@@ -43,7 +43,6 @@ header p { margin: 5px; font-size: 1rem; opacity: 0.8; }
 .palette-container { 
     text-align: center; 
     margin-bottom: 20px; 
-    padding: 2 10px;
     width: 640px; /* Exakte Breite der Tabelle */
 }
 
@@ -51,7 +50,7 @@ header p { margin: 5px; font-size: 1rem; opacity: 0.8; }
     display: flex; 
     align-items: stretch; 
     justify-content: space-between; 
-    gap: 0; /* Nahtloser Übergang */
+    gap: 2; /* Nahtloser Übergang */
     border: 1px solid #d1d5da; /* Gleicher Rahmen wie Tabelle */
     border-radius: 8px;
     overflow: hidden;

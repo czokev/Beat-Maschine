@@ -1,91 +1,66 @@
-body {
-    font-family: -apple-system, sans-serif;
-    margin: 0; background-color: #f6f8fa;
-    display: flex; flex-direction: column; align-items: center;
-}
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rhythmus-Baukasten</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-header {
-    background-color: #24292e; color: white; width: 100%;
-    padding: 10px 0; text-align: center;
-}
+    <header>
+        <h1>Rhythmus-Baukasten</h1>
+        <p>Ziehe die Symbole in die Quadrate. Klicke zum Löschen.</p>
+    </header>
 
-header h1 { margin: 0; font-size: 1.2rem; }
-header p { margin: 2px; font-size: 0.8rem; opacity: 0.8; }
+    <main>
+        <div class="grid-container">
+            <div class="cell header">1</div>
+            <div class="cell header">+</div>
+            <div class="cell header">2</div>
+            <div class="cell header">+</div>
+            <div class="cell header">3</div>
+            <div class="cell header">+</div>
+            <div class="cell header">4</div>
+            <div class="cell header">+</div>
 
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(8, 80px);
-    grid-template-rows: repeat(2, 80px);
-    gap: 0; margin: 15px auto 5px auto;
-    border: 3px solid #333; background-color: #333;
-}
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
+        </div>
 
-.cell {
-    width: 80px; height: 80px; background-color: white;
-    display: flex; align-items: center; justify-content: center;
-    border: 1px solid #333; box-sizing: border-box; position: relative;
-}
+        <div class="palette-container">
+            <h3>Symbole:</h3>
+            <div class="palette-row">
+                <div class="symbol-palette">
+                    <img src="schnippen.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
+                    <img src="trampeln.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
+                    <img src="klatschen.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
+                    <img src="hey.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
+                    <img src="ho.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
+                    <img src="yeah.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
+                    <img src="klopfen.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
+                </div>
+                <button class="delete-box" onclick="clearAll()" title="Tabelle leeren">🗑</button>
+            </div>
+        </div>
 
-.cell.header {
-    background-color: #f1f3f5; color: #586069;
-    font-size: 1.8rem; font-weight: bold;
-}
+        <div class="controls-container">
+            <button id="play-btn" class="control-btn" onclick="togglePlay()">Play</button>
+            <button class="control-btn" onclick="stopSequencer()">Stop</button>
+            
+            <div class="tempo-controls">
+                <label>Tempo: <span id="bpm-value">120</span> BPM</label>
+                <input type="range" id="bpm" min="40" max="240" value="120" oninput="updateBPM(this.value)">
+            </div>
+        </div>
+    </main>
 
-.cell.active {
-    background-color: #fff9c4 !important;
-    outline: 3px solid #fbc02d; z-index: 5;
-}
-
-.cell img { width: 80%; height: 80%; object-fit: contain; pointer-events: none; }
-
-.cell.drop-zone.drag-over::after {
-    content: ''; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px;
-    background-color: rgba(219, 237, 255, 0.7);
-    border: 2px dashed #0366d6; border-radius: 10px;
-}
-
-/* Palette Bereich */
-.palette-container { text-align: center; margin-bottom: 10px; }
-.palette-container h3 { margin: 5px 0; font-size: 1rem; }
-
-.palette-row {
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-}
-
-.symbol-palette {
-    display: flex; flex-wrap: wrap; justify-content: center;
-    gap: 12px; padding: 10px; background: white;
-    border: 1px solid #d1d5da; border-radius: 8px;
-}
-
-.draggable-img { width: 45px; height: 45px; cursor: grab; }
-
-/* Rotes Lösch-Quadrat */
-.delete-box {
-    width: 50px; height: 50px;
-    background-color: #d73a49; color: white;
-    border: none; border-radius: 8px;
-    cursor: pointer; font-size: 1.5rem;
-    display: flex; align-items: center; justify-content: center;
-}
-.delete-box:hover { background-color: #b31d28; }
-
-/* Steuerung / Metronom-Fenster */
-.controls-container {
-    display: flex; gap: 20px; align-items: center; justify-content: center;
-    margin-top: 5px; padding: 10px 20px;
-    background: white; border-radius: 8px; border: 1px solid #d1d5da;
-}
-
-.control-btn { padding: 8px 15px; cursor: pointer; border-radius: 6px; border: 1px solid #d1d5da; font-weight: bold; }
-#play-btn { background-color: #2ea44f; color: white; border: none; }
-
-.tempo-controls { display: flex; flex-direction: column; font-size: 0.85rem; }
-
-/* Responsive */
-@media screen and (max-width: 680px) {
-    .grid-container { grid-template-columns: repeat(8, 11vw); grid-template-rows: repeat(2, 11vw); }
-    .cell { width: 11vw; height: 11vw; }
-    .cell.header { font-size: 1.1rem; }
-    .controls-container { transform: scale(0.9); }
-}
+    <script src="script.js"></script>
+</body>
+</html>

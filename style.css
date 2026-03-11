@@ -2,9 +2,7 @@ body {
     font-family: -apple-system, sans-serif;
     margin: 0; background-color: #f6f8fa;
     display: flex; flex-direction: column; align-items: center;
-    /* VERHINDERT TEXTMARKIERUNG BEIM ZIEHEN */
-    user-select: none; 
-    -webkit-user-select: none;
+    user-select: none; -webkit-user-select: none;
 }
 
 header {
@@ -12,40 +10,29 @@ header {
     padding: 20px 0; text-align: center;
 }
 
-header h1 { margin: 0; font-size: 2.5rem; letter-spacing: 1px; }
+header h1 { margin: 0; font-size: 2.5rem; }
 
 .grid-container {
     display: grid;
     grid-template-columns: repeat(8, 80px);
     grid-template-rows: repeat(2, 80px);
-    gap: 0; margin: 20px auto 10px auto;
-    border: 3px solid #333; background-color: #333;
+    margin: 20px auto; border: 3px solid #333; background-color: #333;
 }
 
 .cell {
     width: 80px; height: 80px; background-color: white;
     display: flex; align-items: center; justify-content: center;
     border: 1px solid #333; box-sizing: border-box; position: relative;
+    /* Hintergrund-Einstellungen für abgelegte Symbole */
+    background-size: 85%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.cell.header {
-    background-color: #f1f3f5; color: #586069;
-    font-size: 2rem; font-weight: bold;
-}
+.cell.header { background-color: #f1f3f5; color: #586069; font-size: 2rem; font-weight: bold; }
+.cell.active { background-color: #fff9c4 !important; outline: 4px solid #fbc02d; z-index: 5; }
 
-.cell.active {
-    background-color: #fff9c4 !important;
-    outline: 4px solid #fbc02d; z-index: 5;
-}
-
-.cell img, .draggable-img { 
-    max-width: 90%; 
-    max-height: 90%; 
-    object-fit: contain;
-    /* Verhindert, dass das Bild als Text-Cursor interpretiert wird */
-    pointer-events: auto; 
-}
-
+/* Puls-Effekt */
 .cell.drop-zone.drag-over::after {
     content: ''; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px;
     background-color: rgba(219, 237, 255, 0.7);
@@ -59,18 +46,24 @@ header h1 { margin: 0; font-size: 2.5rem; letter-spacing: 1px; }
     100% { transform: scale(1); opacity: 0.7; }
 }
 
-.palette-container { width: 640px; text-align: center; margin-bottom: 20px; }
+.palette-container { width: 640px; text-align: center; }
 .symbol-palette {
     display: flex; justify-content: space-around; align-items: center;
-    background: white; padding: 10px; border: 3px solid #333; 
-    border-radius: 8px; margin-bottom: 15px;
+    background: white; padding: 10px; border: 3px solid #333; border-radius: 8px; margin-bottom: 15px;
 }
 
-.draggable-img { width: 70px; height: 70px; cursor: grab; }
+/* Die neuen Zieh-Elemente */
+.drag-item {
+    width: 70px; height: 70px;
+    cursor: grab;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 
 .clear-btn {
     padding: 10px 20px; background-color: #d73a49; color: white;
-    border: none; border-radius: 6px; cursor: pointer; font-weight: bold;
+    border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 20px;
 }
 
 .controls-container {
@@ -82,7 +75,6 @@ header h1 { margin: 0; font-size: 2.5rem; letter-spacing: 1px; }
 #play-btn { background-color: #2ea44f; color: white; border: none; }
 
 @media screen and (max-width: 680px) {
-    .grid-container, .palette-container { width: 95vw; }
     .grid-container { grid-template-columns: repeat(8, 11.5vw); grid-template-rows: repeat(2, 11.5vw); }
     .cell { width: 11.5vw; height: 11.5vw; }
 }

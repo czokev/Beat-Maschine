@@ -1,65 +1,101 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    margin: 0;
+    background-color: #f6f8fa;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #f9f9f9;
+}
+
+header {
+    background-color: #24292e;
+    color: white;
+    width: 100%;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .grid-container {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
-    gap: 8px;
+    gap: 10px;
     width: 90%;
-    max-width: 900px;
-    margin: 40px 0;
+    max-width: 800px;
+    margin: 40px auto;
 }
 
 .cell {
     aspect-ratio: 1 / 1;
-    border: 3px solid #333;
-    background-color: #fff;
+    border: 2px solid #d1d5da;
+    background-color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: bold;
-    border-radius: 8px;
+    border-radius: 6px;
+    transition: all 0.2s;
 }
 
 .cell.header {
-    background-color: #eee;
-    color: #555;
+    background-color: #f1f3f5;
+    color: #586069;
+    border-color: #e1e4e8;
 }
 
-/* Der Hover-Effekt beim Drag-and-Drop */
 .cell.drag-over {
-    background-color: #e3f2fd;
-    border-color: #2196f3;
-    border-style: dashed;
+    background-color: #dbedff;
+    border-color: #0366d6;
+    transform: scale(1.05);
 }
 
 .cell img {
-    max-width: 85%;
-    max-height: 85%;
-    pointer-events: none; /* Verhindert, dass das Bild im Feld erneut gezogen wird */
+    max-width: 80%;
+    max-height: 80%;
+    pointer-events: none;
+}
+
+.palette-container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e1e4e8;
+    text-align: center;
+    max-width: 800px;
 }
 
 .symbol-palette {
-    padding: 20px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
 .draggable-img {
-    width: 60px;
-    height: 60px;
-    margin: 10px;
+    width: 50px;
+    height: 50px;
     cursor: grab;
-    transition: transform 0.2s;
+    padding: 5px;
+    border: 1px solid transparent;
 }
 
-.draggable-img:active {
-    cursor: grabbing;
+.draggable-img:hover {
+    border: 1px solid #0366d6;
+    border-radius: 4px;
+}
+
+.clear-btn {
+    background-color: #fafbfc;
+    border: 1px solid #d1d5da;
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.clear-btn:hover {
+    background-color: #f3f4f6;
+    border-color: #1b1f23;
 }

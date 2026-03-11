@@ -6,17 +6,19 @@ let bpm = 120;
 function allowDrop(ev) { ev.preventDefault(); }
 
 function drag(ev) { 
-    // Speichert nur die URL des Bildes
-    ev.dataTransfer.setData("imageSrc", ev.target.src); 
+    // Wir sagen dem Browser explizit, dass nur die Bild-URL wichtig ist
+    ev.dataTransfer.setData("text/plain", ev.target.src); 
     
-    // WICHTIG: Erzwingt, dass NUR das Bild gezogen wird (setDragImage)
-    // Parameter: Das Element, Versatz X (Mitte), Versatz Y (Mitte)
-    ev.dataTransfer.setDragImage(ev.target, ev.target.width / 2, ev.target.height / 2);
+    // Verhindert das Mitkopieren von Hintergründen durch Erzwingen der Bild-Vorschau
+    if (ev.target.tagName === 'IMG') {
+        ev.dataTransfer.setDragImage(ev.target, ev.target.width / 2, ev.target.height / 2);
+    }
 }
 
 function dragEnter(ev) {
     ev.preventDefault();
     let target = ev.target;
+    // Falls wir über ein Bild in der Zelle fahren, wählen wir die Zelle selbst
     if (target.tagName === "IMG") target = target.parentElement;
     if (target.classList.contains('drop-zone')) target.classList.add('drag-over');
 }
@@ -33,20 +35,23 @@ function drop(ev) {
     if (target.tagName === "IMG") target = target.parentElement;
     
     target.classList.remove('drag-over');
-    const src = ev.dataTransfer.getData("imageSrc");
     
-    if (target.classList.contains('drop-zone') && src) {
+    // Wir holen die URL aus dem Text-Speicher
+    const src = ev.dataTransfer.getData("text/plain");
+    
+    // Sicherheitscheck: Nur wenn es ein Link zu einem Bild ist
+    if (target.classList.contains('drop-zone') && src && src.includes('.png')) {
         target.innerHTML = ""; 
         const newImg = document.createElement("img");
         newImg.src = src;
-        // Verhindert, dass das neue Bild selbst wieder drag-Anker für Geisterbilder wird
+        // WICHTIG: Erlaubt das erneute Ziehen aus der Tabelle heraus ohne Geisterbilder
         newImg.setAttribute('draggable', 'true');
-        newImg.addEventListener('dragstart', drag);
+        newImg.setAttribute('ondragstart', 'drag(event)');
         target.appendChild(newImg);
     }
 }
 
-// Sequencer Logik
+// Sequencer & Audio Logik (bleibt gleich, da sie funktioniert)
 function togglePlay() {
     if (isPlaying) stopSequencer();
     else {

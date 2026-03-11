@@ -1,34 +1,40 @@
-<main>
-    <div class="grid-container">
-        <div class="cell header">1</div>
-        <div class="cell header">+</div>
-        <div class="cell header">2</div>
-        <div class="cell header">+</div>
-        <div class="cell header">3</div>
-        <div class="cell header">+</div>
-        <div class="cell header">4</div>
-        <div class="cell header">+</div>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktive Symbole</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-        <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="this.innerHTML=''"></div>
-        <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="this.innerHTML=''"></div>
-        <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="this.innerHTML=''"></div>
-        <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="this.innerHTML=''"></div>
-        <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="this.innerHTML=''"></div>
-        <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="this.innerHTML=''"></div>
-        <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="this.innerHTML=''"></div>
-        <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="this.innerHTML=''"></div>
-    </div>
+    <header>
+        <h1>Symbol-Zuordnung</h1>
+        <p>Klicke auf ein Symbol unten, um es in die nächste freie Zelle einzufügen.</p>
+    </header>
 
-    <div class="symbol-palette">
-        <h3>Ziehe die Symbole in die Quadrate:</h3>
-        <div class="palette-inner">
-            <img src="symbol1.png" id="sym1" class="selectable-symbol" draggable="true" ondragstart="drag(event)">
-            <img src="symbol2.png" id="sym2" class="selectable-symbol" draggable="true" ondragstart="drag(event)">
-            <img src="plus.png" id="sym3" class="selectable-symbol" draggable="true" ondragstart="drag(event)">
+    <main>
+        <div class="grid-container">
+            <div class="cell header">1</div>
+            <div class="cell header">+</div>
+            <div class="cell header">2</div>
+            <div class="cell header">+</div>
+            <div class="cell header">3</div>
+            <div class="cell header">+</div>
+            <div class="cell header">4</div>
+            <div class="cell header">+</div>
+
+            <div class="cell drop-zone" onclick="clearCell(this)"></div>
+            <div class="cell drop-zone" onclick="clearCell(this)"></div>
+            <div class="cell drop-zone" onclick="clearCell(this)"></div>
+            <div class="cell drop-zone" onclick="clearCell(this)"></div>
+            <div class="cell drop-zone" onclick="clearCell(this)"></div>
+            <div class="cell drop-zone" onclick="clearCell(this)"></div>
+            <div class="cell drop-zone" onclick="clearCell(this)"></div>
+            <div class="cell drop-zone" onclick="clearCell(this)"></div>
         </div>
-    </div>
-</main>
-<script src="script.js"></script>        <div class="symbol-palette">
+
+        <div class="symbol-palette">
             <h3>Deine Symbole:</h3>
             <div class="palette-inner">
                 <img src="symbol1.png" alt="Symbol 1" class="selectable-symbol" onclick="addToTable(this.src)">

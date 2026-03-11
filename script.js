@@ -3,6 +3,7 @@ let currentStep = 0;
 let playbackInterval = null;
 let bpm = 120;
 
+// Drag & Drop Funktionen
 function allowDrop(ev) { ev.preventDefault(); }
 function drag(ev) { ev.dataTransfer.setData("imageSrc", ev.target.src); }
 
@@ -33,6 +34,7 @@ function drop(ev) {
     }
 }
 
+// Sequencer Funktionen
 function togglePlay() {
     if (isPlaying) stopSequencer();
     else {
@@ -67,6 +69,7 @@ function updateBPM(val) {
     if (isPlaying) { clearInterval(playbackInterval); startSequencer(); }
 }
 
+// Metronom Klick
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function playClick() {
     const osc = audioCtx.createOscillator();

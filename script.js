@@ -4,7 +4,11 @@ let playbackInterval = null;
 let bpm = 120;
 
 function allowDrop(ev) { ev.preventDefault(); }
-function drag(ev) { ev.dataTransfer.setData("imageSrc", ev.target.src); }
+
+// Hier wird NUR die Bild-Quelle (URL) gespeichert
+function drag(ev) { 
+    ev.dataTransfer.setData("imageSrc", ev.target.src); 
+}
 
 function dragEnter(ev) {
     ev.preventDefault();
@@ -19,14 +23,21 @@ function dragLeave(ev) {
     if (target.classList.contains('drop-zone')) target.classList.remove('drag-over');
 }
 
+// Hier wird das Bild SAUBER neu erstellt
 function drop(ev) {
     ev.preventDefault();
     let target = ev.target;
+    
+    // Falls man auf ein bereits existierendes Bild droppt, nehmen wir die Zelle
     if (target.tagName === "IMG") target = target.parentElement;
+    
     target.classList.remove('drag-over');
+    
+    // Wir holen NUR den Text der Bild-URL ab
     const src = ev.dataTransfer.getData("imageSrc");
-    if (target.classList.contains('drop-zone')) {
-        target.innerHTML = "";
+    
+    if (target.classList.contains('drop-zone') && src) {
+        target.innerHTML = ""; // Alten Inhalt komplett löschen
         const newImg = document.createElement("img");
         newImg.src = src;
         target.appendChild(newImg);

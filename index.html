@@ -10,7 +10,7 @@
 
     <header>
         <h1>Beat-Maschine</h1>
-        <p>Ziehe die Symbole in die Quadrate und kreiere einen coolen Beat!</p>
+        <p>Klicke ein Symbol an und ziehe es in die Quadrate!</p>
     </header>
 
     <main>
@@ -24,11 +24,11 @@
             <div class="cell header">4</div>
             <div class="cell header">+</div>
 
-            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
-            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
-            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
-            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
-            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.style.backgroundImage=''"></div>
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.style.backgroundImage=''"></div>
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.style.backgroundImage=''"></div>
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.style.backgroundImage=''"></div>
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.style.backgroundImage=''"></div>
             <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
             <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
             <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
@@ -37,13 +37,13 @@
         <div class="palette-container">
             <h3>Symbole:</h3>
             <div class="symbol-palette">
-                <img src="schnippen.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
-                <img src="trampeln.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
-                <img src="klatschen.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
-                <img src="hey.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
-                <img src="ho.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
-                <img src="yeah.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
-                <img src="klopfen.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
+                <div class="drag-item" draggable="true" ondragstart="drag(event)" data-src="schnippen.png" style="background-image: url('schnippen.png');"></div>
+                <div class="drag-item" draggable="true" ondragstart="drag(event)" data-src="trampeln.png" style="background-image: url('trampeln.png');"></div>
+                <div class="drag-item" draggable="true" ondragstart="drag(event)" data-src="klatschen.png" style="background-image: url('klatschen.png');"></div>
+                <div class="drag-item" draggable="true" ondragstart="drag(event)" data-src="hey.png" style="background-image: url('hey.png');"></div>
+                <div class="drag-item" draggable="true" ondragstart="drag(event)" data-src="ho.png" style="background-image: url('ho.png');"></div>
+                <div class="drag-item" draggable="true" ondragstart="drag(event)" data-src="yeah.png" style="background-image: url('yeah.png');"></div>
+                <div class="drag-item" draggable="true" ondragstart="drag(event)" data-src="klopfen.png" style="background-image: url('klopfen.png');"></div>
             </div>
             <button class="clear-btn" onclick="clearAll()">Tabelle leeren</button>
         </div>

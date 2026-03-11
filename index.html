@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rhythmus-Baukasten</title>
+    <title>Beat-Maschine</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
-        <h1>Rhythmus-Baukasten</h1>
-        <p>Ziehe die Symbole in die Quadrate. Klicke zum Löschen.</p>
+        <h1>Beat-Maschine</h1>
+        <p>Ziehe die Bewegungen in die Quadrate unten.</p>
     </header>
 
     <main>
@@ -34,29 +34,18 @@
             <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
         </div>
 
-        <div class="controls-container">
-            <button id="play-btn" class="control-btn" onclick="togglePlay()">Play</button>
-            <button class="control-btn" onclick="stopSequencer()">Stop</button>
-            
-            <div class="tempo-controls">
-                <label>Tempo: <span id="bpm-value">120</span> BPM</label>
-                <input type="range" id="bpm" min="40" max="240" value="120" oninput="updateBPM(this.value)">
-            </div>
-        </div>
-
         <div class="palette-container">
-            <div class="palette-wrapper">
-                <div class="symbol-palette">
-                    <img src="schnippen.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
-                    <img src="trampeln.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
-                    <img src="klatschen.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
-                    <img src="hey.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
-                    <img src="ho.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
-                    <img src="yeah.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
-                    <img src="klopfen.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
-                </div>
-                <button class="clear-btn-square" onclick="clearAll()" title="Tabelle leeren">🗑</button>
+            <h3></h3>
+            <div class="symbol-palette">
+                <img src="schnippen.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
+                <img src="trampeln.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
+                <img src="klatschen.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
+                <img src="hey.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
+                <img src="ho.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
+                <img src="yeah.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
+                <img src="klopfen.png" class="draggable-img" draggable="true" ondragstart="drag(event)">
             </div>
+            <button class="clear-btn" onclick="clearAll()">Tabelle leeren</button>
         </div>
     </main>
 

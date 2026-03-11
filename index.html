@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rhythmus-Baukasten</title>
+    <title>Beat-Maschine</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
-        <h1>Rhythmus-Baukasten</h1>
-        <p>Ziehe die Symbole in die Quadrate. Klicke zum Löschen.</p>
+        <h1>Beat-Maschine</h1>
+        <p>Ziehe die Symbole in die Quadrate und kreiere einen coolen Beat!</p>
     </header>
 
     <main>
@@ -58,8 +58,8 @@
                 <label>Tempo: <span id="bpm-value">120</span> BPM</label>
                 <input type="range" id="bpm" min="40" max="240" value="120" oninput="updateBPM(this.value)">
             </div>
-            <button class="clear-btn" onclick="clearAll()">Tabelle leeren</button>
         </div>
+        <button class="clear-btn" onclick="clearAll()">Tabelle leeren</button>
     </main>
 
     <script src="script.js"></script>

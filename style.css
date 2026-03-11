@@ -23,7 +23,7 @@ header {
     grid-template-columns: repeat(8, 100px);
     grid-template-rows: repeat(2, 100px);
     gap: 0;
-    margin: 30px auto;
+    margin: 30px auto 5px;
     border: 3px solid #333;
     background-color: #333; /* Wirkt als Gitterlinie */
 }

@@ -1,86 +1,183 @@
+/* --- Basis-Design --- */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    margin: 0; padding: 0;
+    margin: 0;
     background-color: #f6f8fa;
-    display: flex; flex-direction: column; align-items: center;
-    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 header {
-    background-color: #24292e; color: white; width: 100%;
-    padding: 10px 0; text-align: center;
+    background-color: #24292e;
+    color: white;
+    width: 100%;
+    padding: 1px 0;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-header h1 { margin: 0; font-size: 1.2rem; }
-header p { margin: 2px; font-size: 0.8rem; opacity: 0.8; }
-
+/* --- Die Tabelle --- */
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(8, 80px);
-    grid-template-rows: repeat(2, 80px);
-    gap: 0; margin: 10px auto 5px auto;
-    border: 2px solid #333; background-color: #333;
+    grid-template-columns: repeat(8, 100px);
+    grid-template-rows: repeat(2, 100px);
+    gap: 0;
+    margin: 30px auto 5px;
+    border: 3px solid #333;
+    background-color: #333; /* Wirkt als Gitterlinie */
 }
 
 .cell {
-    width: 80px; height: 80px; background-color: white;
-    display: flex; align-items: center; justify-content: center;
-    border: 1px solid #333; box-sizing: border-box; position: relative;
+    width: 100px;
+    height: 100px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Grund-Design der Zelle */
+    border: 1px solid #333;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative; /* WICHTIG: Erlaubt das Positionieren des Hover-Effekts */
 }
 
+/* Obere Zeile (Fest) */
 .cell.header {
-    background-color: #f1f3f5; color: #586069;
-    font-size: 1.8rem; font-weight: bold;
+    background-color: #f1f3f5;
+    color: #586069;
+    font-size: 3rem; /* <-- Hier kannst du die Schriftgröße ändern (z.B. 2.5rem oder 3rem) */
+    font-weight: bold;
 }
 
-.cell.active {
-    background-color: #fff9c4 !important;
-    outline: 3px solid #fbc02d; z-index: 5;
+/* Bilder innerhalb der Zelle */
+.cell img {
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+    pointer-events: none;
+    z-index: 1; /* Liegt ÜBER dem Hover-Effekt */
 }
 
-.cell img { width: 80%; height: 80%; object-fit: contain; pointer-events: none; }
+/* --- Der NEUE Hover-Effekt (beim Ziehen über die Zelle) --- */
 
+/* 1. Wir nutzen ein 'Pseudo-Element', um die Form zu erzeugen, ohne das HTML zu ändern */
 .cell.drop-zone.drag-over::after {
-    content: ''; position: absolute; top: 3px; left: 3px; right: 3px; bottom: 3px;
-    background-color: rgba(219, 237, 255, 0.7);
-    border: 2px dashed #0366d6; border-radius: 10px;
+    content: ''; /* Erzeugt ein leeres Element */
+    position: absolute;
+    /* Positionierung innerhalb der Zelle mit etwas Abstand (5px) zum Rand */
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    
+    /* --- Deine Wunsch-Form --- */
+    background-color: rgba(219, 237, 255, 0.7); /* Deine gute blaue Farbe (halb-transparent) */
+    border: 3px dashed #0366d6;                  /* GESTRICHELTE Kontur in kräftigem Blau */
+    border-radius: 15px;                        /* RUNDE Ecken */
+    
+    z-index: 0; /* Liegt UNTER dem eingefügten Bild */
+    
+    /* Optionale kleine Animation für das "Aufleuchten" */
+    animation: pulseHover 1.5s infinite;
 }
 
-.controls-container {
-    display: flex; gap: 15px; align-items: center;
-    margin: 5px 0; padding: 8px 15px;
-    background: white; border-radius: 8px; border: 1px solid #d1d5da;
-    transform: scale(0.9);
+/* Kleiner Puls-Effekt für das Aufleuchten */
+@keyframes pulseHover {
+    0% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.02); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.7; }
 }
 
-.control-btn { padding: 8px 15px; font-weight: bold; cursor: pointer; border-radius: 6px; border: 1px solid #d1d5da; }
-
-.palette-container { margin-top: 5px; width: 100%; display: flex; justify-content: center; }
-
-.palette-wrapper {
-    display: flex; flex-direction: row; align-items: stretch; gap: 10px;
+/* --- Palette & Buttons --- */
+.palette-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 900px;
+    margin-top: 0px;
 }
 
 .symbol-palette {
-    display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
-    gap: 12px; padding: 10px 15px;
-    background: white; border: 1px solid #d1d5da; border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Zentriert die Bilder */
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: white;
+    border: 1px solid #d1d5da;
+    border-radius: 12px;
+    margin-bottom: 25px;
 }
 
-.draggable-img { width: 45px; height: 45px; cursor: grab; }
-
-.clear-btn-square {
-    aspect-ratio: 1 / 1;
-    background-color: #d73a49; color: white;
-    border: none; border-radius: 10px;
-    cursor: pointer; font-size: 1.5rem;
-    display: flex; align-items: center; justify-content: center;
-    padding: 0 15px; transition: background 0.2s;
+.draggable-img {
+    width: 60px;
+    height: 60px;
+    cursor: grab;
+    transition: transform 0.2s;
 }
 
-.clear-btn-square:hover { background-color: #b31d28; }
+.draggable-img:hover {
+    transform: scale(1.15);
+}
 
-@media screen and (max-width: 680px) {
-    .grid-container { grid-template-columns: repeat(8, 11vw); grid-template-rows: repeat(2, 11vw); }
-    .cell { width: 11vw; height: 11vw; }
+.clear-btn {
+    padding: 10px 25px;
+    background-color: #d73a49;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.clear-btn:hover {
+    background-color: #b31d28;
+}
+
+/* ... Deine bisherigen Styles bleiben ... */
+
+.controls-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin: 20px 0;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #d1d5da;
+}
+
+.control-btn {
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+    border: 1px solid #d1d5da;
+    background: #fafbfc;
+}
+
+#play-btn {
+    background-color: #2ea44f;
+    color: white;
+    border: none;
+}
+
+/* Der Sequencer-Effekt: Die Zelle leuchtet gelb/orange auf */
+.cell.active {
+    background-color: #fff9c4 !important;
+    outline: 4px solid #fbc02d;
+    z-index: 5;
+    transform: scale(1.05);
+    transition: all 0.1s ease;
+}
+
+.tempo-controls {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+    color: #586069;
 }

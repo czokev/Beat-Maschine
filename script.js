@@ -6,46 +6,33 @@ let bpm = 120;
 function allowDrop(ev) { ev.preventDefault(); }
 
 function drag(ev) { 
-    // Wir speichern die URL
-    ev.dataTransfer.setData("text/plain", ev.target.src); 
-    // Wir sagen dem Browser, er soll nur das Bild als Schatten nehmen
-    ev.dataTransfer.setDragImage(ev.target, ev.target.width / 2, ev.target.height / 2);
+    // Wir nehmen den Pfad aus dem data-src Attribut
+    ev.dataTransfer.setData("imagePath", ev.target.getAttribute('data-src')); 
 }
 
 function dragEnter(ev) {
     ev.preventDefault();
-    let target = ev.target;
-    if (target.tagName === "IMG") target = target.parentElement;
-    if (target.classList.contains('drop-zone')) target.classList.add('drag-over');
+    if (ev.target.classList.contains('drop-zone')) ev.target.classList.add('drag-over');
 }
 
 function dragLeave(ev) {
-    let target = ev.target;
-    if (target.tagName === "IMG") target = target.parentElement;
-    if (target.classList.contains('drop-zone')) target.classList.remove('drag-over');
+    if (ev.target.classList.contains('drop-zone')) ev.target.classList.remove('drag-over');
 }
 
 function drop(ev) {
     ev.preventDefault();
-    let target = ev.target;
-    if (target.tagName === "IMG") target = target.parentElement;
-    
+    const target = ev.target;
     target.classList.remove('drag-over');
     
-    const src = ev.dataTransfer.getData("text/plain");
+    const path = ev.dataTransfer.getData("imagePath");
     
-    if (target.classList.contains('drop-zone') && src && src.includes('.png')) {
-        target.innerHTML = ""; 
-        const newImg = document.createElement("img");
-        newImg.src = src;
-        // WICHTIG: Das Bild in der Tabelle ist NICHT mehr ziehbar,
-        // um Markierungs-Fehler zu vermeiden.
-        newImg.draggable = false; 
-        target.appendChild(newImg);
+    if (target.classList.contains('drop-zone') && path) {
+        // Wir setzen das Bild als Hintergrundbild der Zelle
+        target.style.backgroundImage = `url('${path}')`;
     }
 }
 
-// Sequencer Logik
+// Sequencer & Audio
 function togglePlay() {
     if (isPlaying) stopSequencer();
     else {
@@ -92,5 +79,7 @@ function playClick() {
 }
 
 function clearAll() {
-    document.querySelectorAll('.drop-zone').forEach(z => z.innerHTML = "");
+    document.querySelectorAll('.drop-zone').forEach(z => {
+        z.style.backgroundImage = "";
+    });
 }

@@ -6,15 +6,17 @@ body {
 
 header {
     background-color: #24292e; color: white; width: 100%;
-    padding: 15px 0; text-align: center;
+    padding: 20px 0; text-align: center;
 }
 
-/* Tabelle - Standard für PC */
+header h1 { margin: 0; font-size: 2.5rem; letter-spacing: 1px; }
+
+/* Tabelle - 640px breit */
 .grid-container {
     display: grid;
     grid-template-columns: repeat(8, 80px);
     grid-template-rows: repeat(2, 80px);
-    gap: 0; margin: 20px auto;
+    gap: 0; margin: 20px auto 10px auto;
     border: 3px solid #333; background-color: #333;
 }
 
@@ -26,53 +28,64 @@ header {
 
 .cell.header {
     background-color: #f1f3f5; color: #586069;
-    font-size: 1.8rem; font-weight: bold;
+    font-size: 2rem; font-weight: bold;
 }
 
 .cell.active {
     background-color: #fff9c4 !important;
-    outline: 3px solid #fbc02d; z-index: 5;
+    outline: 4px solid #fbc02d; z-index: 5;
 }
 
-.cell img { width: 80%; height: 80%; object-fit: contain; pointer-events: none; }
+.cell img { width: 85%; height: 85%; object-fit: contain; pointer-events: none; }
 
-/* Hover-Effekt */
-.cell.drop-zone.drag-over::after {
-    content: ''; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px;
-    background-color: rgba(219, 237, 255, 0.7);
-    border: 2px dashed #0366d6; border-radius: 10px;
+/* Palette - bündig zur Tabelle */
+.palette-container { 
+    width: 640px; 
+    text-align: center; 
+    margin-bottom: 20px; 
 }
 
-.control-btn { padding: 8px 15px; cursor: pointer; border-radius: 6px; border: 1px solid #d1d5da; }
-
-/* Palette */
-.palette-container { text-align: center; margin-bottom: 30px; }
 .symbol-palette {
-    display: flex; flex-wrap: wrap; justify-content: center;
-    gap: 15px; padding: 15px; background: white;
-    border: 1px solid #d1d5da; border-radius: 10px; margin-bottom: 15px;
+    display: flex; 
+    justify-content: space-around; 
+    align-items: center;
+    background: white; 
+    padding: 5px; 
+    border: 3px solid #333; 
+    border-radius: 8px;
+    margin-bottom: 15px;
 }
-.draggable-img { width: 50px; height: 50px; cursor: grab; }
 
+/* Symbole so groß wie Zellen */
+.draggable-img { 
+    width: 75px; 
+    height: 75px; 
+    cursor: grab; 
+    transition: transform 0.2s;
+}
+.draggable-img:hover { transform: scale(1.05); }
+
+/* Buttons & Steuerung */
 .clear-btn {
     padding: 10px 20px; background-color: #d73a49; color: white;
     border: none; border-radius: 6px; cursor: pointer; font-weight: bold;
-}
-/* Steuerung */
-.controls-container {
-    display: flex; gap: 15px; align-items: center;
-    margin-bottom: 20px; padding: 10px 20px;
-    background: white; border-radius: 8px; border: 1px solid #d1d5da;
+    margin-bottom: 20px;
 }
 
-/* RESPONSIVE ANPASSUNG FÜR HANDYS */
+.controls-container {
+    display: flex; gap: 30px; align-items: center; justify-content: center;
+    padding: 15px 25px; background: white; border-radius: 10px; border: 1px solid #d1d5da;
+}
+
+.control-btn { padding: 10px 20px; cursor: pointer; border-radius: 6px; border: 1px solid #d1d5da; font-weight: bold; }
+#play-btn { background-color: #2ea44f; color: white; border: none; }
+
+.tempo-controls { display: flex; flex-direction: column; font-size: 0.9rem; font-weight: bold; }
+
+/* Responsive */
 @media screen and (max-width: 680px) {
-    .grid-container {
-        grid-template-columns: repeat(8, 11vw);
-        grid-template-rows: repeat(2, 11vw);
-    }
-    .cell { width: 11vw; height: 11vw; }
-    .cell.header { font-size: 1.2rem; }
-    .draggable-img { width: 40px; height: 40px; }
-    .controls-container { transform: scale(0.9); flex-wrap: wrap; justify-content: center; }
+    .grid-container, .palette-container { width: 95vw; }
+    .grid-container { grid-template-columns: repeat(8, 11.5vw); grid-template-rows: repeat(2, 11.5vw); }
+    .cell { width: 11.5vw; height: 11.5vw; }
+    .draggable-img { width: 10vw; height: 10vw; }
 }

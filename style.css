@@ -51,7 +51,7 @@ header p { margin: 5px; font-size: 1rem; opacity: 0.8; }
     align-items: stretch; 
     justify-content: space-between; 
     gap: 0; /* Nahtloser Übergang */
-    border: 3px solid #333; /* Gleicher Rahmen wie Tabelle */
+    border: 1px solid #d1d5da; /* Gleicher Rahmen wie Tabelle */
     border-radius: 8px;
     overflow: hidden;
 }
@@ -80,7 +80,7 @@ header p { margin: 5px; font-size: 1rem; opacity: 0.8; }
     background-color: #ff5252; 
     color: white;
     border: none;
-    border-left: 3px solid #333; /* Trennlinie zur Palette */
+    border-left: 1px solid #d1d5da; /* Trennlinie zur Palette */
     cursor: pointer; 
     font-size: 2rem;
     display: flex; align-items: center; justify-content: center;

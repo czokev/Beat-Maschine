@@ -3,58 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interaktive Symbole</title>
+    <title>Rhythmus-Baukasten</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
-        <h1>Beat-Maschine</h1>
-        <p>Füge die Symbole ein und kreiere einen coolen Beat!</p>
+        <h1>Rhythmus-Baukasten</h1>
+        <p>Ziehe die Bewegungen in die Quadrate, um deinen Rhythmus zu komponieren!</p>
     </header>
 
     <main>
-    <div class="grid-container">
-        <div class="cell header">1</div>
-        <div class="cell header">+</div>
-        <div class="cell header">2</div>
-        <div class="cell header">+</div>
-        <div class="cell header">3</div>
-        <div class="cell header">+</div>
-        <div class="cell header">4</div>
-        <div class="cell header">+</div>
+        <div class="grid-container">
+            <div class="cell header">1</div>
+            <div class="cell header">+</div>
+            <div class="cell header">2</div>
+            <div class="cell header">+</div>
+            <div class="cell header">3</div>
+            <div class="cell header">+</div>
+            <div class="cell header">4</div>
+            <div class="cell header">+</div>
 
-        <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="this.innerHTML=''"></div>
-        <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="this.innerHTML=''"></div>
-        <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="this.innerHTML=''"></div>
-        <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="this.innerHTML=''"></div>
-        <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="this.innerHTML=''"></div>
-        <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="this.innerHTML=''"></div>
-        <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="this.innerHTML=''"></div>
-        <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="this.innerHTML=''"></div>
-    </div>
-
-<div class="cell drop-zone" 
-     ondrop="drop(event)" 
-     ondragover="allowDrop(event)" 
-     ondragenter="dragEnter(event)" 
-     ondragleave="dragLeave(event)" 
-     onclick="this.innerHTML=''">
-</div>
-    <div class="symbol-palette">
-        <h3>Ziehe die Symbole in die Quadrate:</h3>
-        <div class="palette-inner">
-            <img src="schnippen.png" id="sym1" class="selectable-symbol" draggable="true" ondragstart="drag(event)">
-            <img src="klopfen.png" id="sym2" class="selectable-symbol" draggable="true" ondragstart="drag(event)">
-            <img src="hey.png" id="sym3" class="selectable-symbol" draggable="true" ondragstart="drag(event)">
-            <img src="trampeln.png" id="sym3" class="selectable-symbol" draggable="true" ondragstart="drag(event)">
-            <img src="ho.png" id="sym3" class="selectable-symbol" draggable="true" ondragstart="drag(event)">
-            <img src="klatschen.png" id="sym3" class="selectable-symbol" draggable="true" ondragstart="drag(event)">
-            <img src="yeah.png" id="sym3" class="selectable-symbol" draggable="true" ondragstart="drag(event)">
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
+            <div class="cell drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" onclick="this.innerHTML=''"></div>
         </div>
-    </div>
-</main>
-<script src="script.js"></script>
+
+        <div class="symbol-palette">
+            <h3>Deine Sounds / Bewegungen</h3>
+            <div class="palette-inner">
+                <img src="schnippen.png" alt="schnippen" title="schnippen" class="draggable-img" draggable="true" ondragstart="drag(event)">
+                <img src="trampeln.png" alt="trampeln" title="trampeln" class="draggable-img" draggable="true" ondragstart="drag(event)">
+                <img src="klatschen.png" alt="klatschen" title="klatschen" class="draggable-img" draggable="true" ondragstart="drag(event)">
+                <img src="hey.png" alt="hey" title="hey" class="draggable-img" draggable="true" ondragstart="drag(event)">
+                <img src="ho.png" alt="ho" title="ho" class="draggable-img" draggable="true" ondragstart="drag(event)">
+                <img src="yeah.png" alt="yeah" title="yeah" class="draggable-img" draggable="true" ondragstart="drag(event)">
+                <img src="klopfen.png" alt="klopfen" title="klopfen" class="draggable-img" draggable="true" ondragstart="drag(event)">
+            </div>
+            <button onclick="clearAll()" style="margin-top: 20px; padding: 10px; cursor: pointer;">Tabelle leeren</button>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
 </body>
 </html>
-

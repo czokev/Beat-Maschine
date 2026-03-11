@@ -6,19 +6,15 @@ let bpm = 120;
 function allowDrop(ev) { ev.preventDefault(); }
 
 function drag(ev) { 
-    // Wir sagen dem Browser explizit, dass nur die Bild-URL wichtig ist
+    // Wir speichern die URL
     ev.dataTransfer.setData("text/plain", ev.target.src); 
-    
-    // Verhindert das Mitkopieren von Hintergründen durch Erzwingen der Bild-Vorschau
-    if (ev.target.tagName === 'IMG') {
-        ev.dataTransfer.setDragImage(ev.target, ev.target.width / 2, ev.target.height / 2);
-    }
+    // Wir sagen dem Browser, er soll nur das Bild als Schatten nehmen
+    ev.dataTransfer.setDragImage(ev.target, ev.target.width / 2, ev.target.height / 2);
 }
 
 function dragEnter(ev) {
     ev.preventDefault();
     let target = ev.target;
-    // Falls wir über ein Bild in der Zelle fahren, wählen wir die Zelle selbst
     if (target.tagName === "IMG") target = target.parentElement;
     if (target.classList.contains('drop-zone')) target.classList.add('drag-over');
 }
@@ -36,22 +32,20 @@ function drop(ev) {
     
     target.classList.remove('drag-over');
     
-    // Wir holen die URL aus dem Text-Speicher
     const src = ev.dataTransfer.getData("text/plain");
     
-    // Sicherheitscheck: Nur wenn es ein Link zu einem Bild ist
     if (target.classList.contains('drop-zone') && src && src.includes('.png')) {
         target.innerHTML = ""; 
         const newImg = document.createElement("img");
         newImg.src = src;
-        // WICHTIG: Erlaubt das erneute Ziehen aus der Tabelle heraus ohne Geisterbilder
-        newImg.setAttribute('draggable', 'true');
-        newImg.setAttribute('ondragstart', 'drag(event)');
+        // WICHTIG: Das Bild in der Tabelle ist NICHT mehr ziehbar,
+        // um Markierungs-Fehler zu vermeiden.
+        newImg.draggable = false; 
         target.appendChild(newImg);
     }
 }
 
-// Sequencer & Audio Logik (bleibt gleich, da sie funktioniert)
+// Sequencer Logik
 function togglePlay() {
     if (isPlaying) stopSequencer();
     else {

@@ -82,38 +82,35 @@ header h1 { margin: 0; font-size: 2.5rem; }
     background: white;
     border-radius: 10px;
     border: 1px solid #d1d5da;
-    width: 640px; /* Gleiche Breite wie die Tabelle */
+    width: 640px;
     box-sizing: border-box;
 }
 
-/* Die Buttons erhalten eine feste Breite, damit sie sich nicht verformen */
 .control-btn {
-    width: 80px; /* Feste Breite für Stabilität */
+    width: 90px; /* Feste Breite verhindert Wackeln */
     padding: 10px 0;
     cursor: pointer;
     border-radius: 6px;
     border: 1px solid #d1d5da;
     font-weight: bold;
     text-align: center;
-    flex-shrink: 0; /* Verhindert, dass der Button schrumpft */
+    flex-shrink: 0;
+    font-family: inherit; /* Nutzt die serifenlose Schriftart */
 }
 
-/* Der Bereich mit dem Schieberegler */
+#play-btn { background-color: #2ea44f; color: white; border: none; }
+#play-btn:hover { background-color: #2c974b; }
+
+.stop-btn { background-color: #fafbfc; color: #24292e; }
+.stop-btn:hover { background-color: #f3f4f6; }
+
 .tempo-controls {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Festgelegte Breite für die Zahlen-Anzeige, damit nichts springt */
-    min-width: 120px; 
-    font-family: 'Courier New', Courier, monospace; /* Monospace-Zahlen wackeln weniger */
+    min-width: 140px; /* Reserviert Platz für 2- und 3-stellige BPM */
     font-size: 0.9rem;
     font-weight: bold;
-}
-
-/* Der Slider selbst */
-#bpm {
-    cursor: pointer;
-    width: 150px;
 }
 
 @media screen and (max-width: 680px) {

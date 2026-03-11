@@ -43,3 +43,22 @@ body { font-family: sans-serif; text-align: center; background: #f0f0f0; }
 }
 
 .selectable-symbol:hover { transform: scale(1.1); }
+
+.drop-zone {
+    transition: background-color 0.2s, border-color 0.2s;
+    cursor: cell;
+}
+
+/* Visuelles Feedback, wenn man ein Bild über die Zelle hält */
+.drop-zone.drag-over {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.selectable-symbol {
+    cursor: grab;
+}
+
+.selectable-symbol:active {
+    cursor: grabbing;
+}

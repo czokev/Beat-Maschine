@@ -1,3 +1,87 @@
+let isPlaying = false;
+let currentStep = 0;
+let playbackInterval = null;
+let bpm = 120;
+
+// 1. Die Abspiel-Funktion
+function togglePlay() {
+    const btn = document.getElementById("play-btn");
+    if (isPlaying) {
+        stopSequencer();
+    } else {
+        isPlaying = true;
+        btn.innerText = "Pause";
+        btn.style.backgroundColor = "#d73a49"; // Rot für Pause
+        startSequencer();
+    }
+}
+
+function startSequencer() {
+    const stepDuration = (60 / bpm) * 500; // Wir rechnen BPM in Millisekunden um (bei 8teln)
+    
+    playbackInterval = setInterval(() => {
+        const zones = document.querySelectorAll('.drop-zone');
+        
+        // Vorherige Zelle deaktivieren
+        zones.forEach(z => z.classList.remove('active'));
+        
+        // Aktuelle Zelle aktivieren
+        zones[currentStep].classList.add('active');
+        
+        // Metronom-Klick abspielen
+        playClick();
+
+        // Nächster Schritt (Loop von 0 bis 7)
+        currentStep = (currentStep + 1) % 8;
+        
+    }, stepDuration);
+}
+
+function stopSequencer() {
+    isPlaying = false;
+    clearInterval(playbackInterval);
+    const btn = document.getElementById("play-btn");
+    btn.innerText = "Play";
+    btn.style.backgroundColor = "#2ea44f";
+    
+    // Alle Markierungen entfernen
+    document.querySelectorAll('.drop-zone').forEach(z => z.classList.remove('active'));
+    currentStep = 0;
+}
+
+function updateBPM(val) {
+    bpm = val;
+    document.getElementById("bpm-value").innerText = val;
+    if (isPlaying) {
+        // Wenn es läuft, kurz stoppen und mit neuem Tempo starten
+        clearInterval(playbackInterval);
+        startSequencer();
+    }
+}
+
+// 2. Metronom-Sound (Web Audio API - erzeugt einen Piep-Ton)
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function playClick() {
+    const oscillator = audioCtx.createOscillator();
+    const envelope = audioCtx.createGain();
+
+    oscillator.type = 'sine';
+    // Der erste Schlag (Zelle 1 und 5) ist höher
+    oscillator.frequency.setValueAtTime(currentStep % 4 === 0 ? 880 : 440, audioCtx.currentTime);
+
+    envelope.gain.setValueAtTime(0.1, audioCtx.currentTime);
+    envelope.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+
+    oscillator.connect(envelope);
+    envelope.connect(audioCtx.destination);
+
+    oscillator.start();
+    oscillator.stop(audioCtx.currentTime + 0.1);
+}
+
+// ... Hier deine bisherigen Drag&Drop Funktionen (drag, drop, allowDrop, etc.) ...
+
 /**
  * Rhythmus-Baukasten Logik
  */

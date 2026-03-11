@@ -1,3 +1,4 @@
+/* --- Basis-Design --- */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     margin: 0;
@@ -16,7 +17,7 @@ header {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* Die Tabelle mit exakten Maßen */
+/* --- Die Tabelle --- */
 .grid-container {
     display: grid;
     grid-template-columns: repeat(8, 100px);
@@ -34,33 +35,61 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 3rem;
-    font-weight: bold;
+    /* Grund-Design der Zelle */
     border: 1px solid #333;
     box-sizing: border-box;
     overflow: hidden;
+    position: relative; /* WICHTIG: Erlaubt das Positionieren des Hover-Effekts */
 }
 
+/* Obere Zeile (Fest) */
 .cell.header {
     background-color: #f1f3f5;
     color: #586069;
+    font-size: 2rem; /* <-- Hier kannst du die Schriftgröße ändern (z.B. 2.5rem oder 3rem) */
+    font-weight: bold;
 }
 
+/* Bilder innerhalb der Zelle */
 .cell img {
     width: 85%;
     height: 85%;
     object-fit: contain;
     pointer-events: none;
+    z-index: 1; /* Liegt ÜBER dem Hover-Effekt */
 }
 
-/* Blaues Leuchten beim Drüberziehen */
-.cell.drag-over {
-    background-color: #dbedff;
-    outline: 3px inset #0366d6;
-    z-index: 10;
+/* --- Der NEUE Hover-Effekt (beim Ziehen über die Zelle) --- */
+
+/* 1. Wir nutzen ein 'Pseudo-Element', um die Form zu erzeugen, ohne das HTML zu ändern */
+.cell.drop-zone.drag-over::after {
+    content: ''; /* Erzeugt ein leeres Element */
+    position: absolute;
+    /* Positionierung innerhalb der Zelle mit etwas Abstand (5px) zum Rand */
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    
+    /* --- Deine Wunsch-Form --- */
+    background-color: rgba(219, 237, 255, 0.7); /* Deine gute blaue Farbe (halb-transparent) */
+    border: 3px dashed #0366d6;                  /* GESTRICHELTE Kontur in kräftigem Blau */
+    border-radius: 15px;                        /* RUNDE Ecken */
+    
+    z-index: 0; /* Liegt UNTER dem eingefügten Bild */
+    
+    /* Optionale kleine Animation für das "Aufleuchten" */
+    animation: pulseHover 1.5s infinite;
 }
 
-/* Zentrierte Palette */
+/* Kleiner Puls-Effekt für das Aufleuchten */
+@keyframes pulseHover {
+    0% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.02); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.7; }
+}
+
+/* --- Palette & Buttons --- */
 .palette-container {
     display: flex;
     flex-direction: column;
@@ -73,7 +102,7 @@ header {
 .symbol-palette {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Zentriert die Bilder horizontal */
+    justify-content: center; /* Zentriert die Bilder */
     align-items: center;
     gap: 20px;
     padding: 20px;
@@ -90,4 +119,21 @@ header {
     transition: transform 0.2s;
 }
 
-.draggable-img:
+.draggable-img:hover {
+    transform: scale(1.15);
+}
+
+.clear-btn {
+    padding: 10px 25px;
+    background-color: #d73a49;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.clear-btn:hover {
+    background-color: #b31d28;
+}

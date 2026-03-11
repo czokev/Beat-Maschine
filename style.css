@@ -13,89 +13,78 @@ header {
     width: 100%;
     padding: 20px 0;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
 }
 
+/* Die Tabelle */
 .grid-container {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
-    gap: 10px;
-    width: 90%;
+    gap: 0; /* KEIN Abstand zwischen den Zellen */
+    width: 95%;
     max-width: 800px;
-    margin: 40px auto;
+    border: 2px solid #333; /* Äußerer Rahmen der gesamten Tabelle */
+    background-color: #333; /* Hintergrundfarbe dient als Gitterlinie */
 }
 
 .cell {
     aspect-ratio: 1 / 1;
-    border: 2px solid #d1d5da;
     background-color: white;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
     font-weight: bold;
-    border-radius: 6px;
-    transition: all 0.2s;
+    /* Ein dünner Rahmen innen sorgt für die Gitterlinien */
+    border: 1px solid #333; 
+    box-sizing: border-box; 
 }
 
 .cell.header {
     background-color: #f1f3f5;
     color: #586069;
-    border-color: #e1e4e8;
 }
 
+/* Hover-Effekt bleibt, jetzt aber ohne Abstände */
 .cell.drag-over {
     background-color: #dbedff;
-    border-color: #0366d6;
-    transform: scale(1.05);
+    z-index: 10; /* Damit der Rahmen beim Hovern oben liegt */
+    outline: 2px solid #0366d6;
 }
 
 .cell img {
-    max-width: 80%;
-    max-height: 80%;
+    max-width: 90%;
+    max-height: 90%;
     pointer-events: none;
 }
 
+/* Palette & Buttons */
 .palette-container {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #e1e4e8;
+    margin-top: 40px;
     text-align: center;
-    max-width: 800px;
 }
 
 .symbol-palette {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 15px;
+    gap: 10px;
     margin-bottom: 20px;
 }
 
 .draggable-img {
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 55px;
     cursor: grab;
-    padding: 5px;
-    border: 1px solid transparent;
-}
-
-.draggable-img:hover {
-    border: 1px solid #0366d6;
+    border: 1px solid #ddd;
     border-radius: 4px;
+    background: white;
 }
 
 .clear-btn {
-    background-color: #fafbfc;
-    border: 1px solid #d1d5da;
-    padding: 6px 16px;
-    border-radius: 6px;
+    padding: 8px 20px;
     cursor: pointer;
-    font-weight: 600;
-}
-
-.clear-btn:hover {
-    background-color: #f3f4f6;
-    border-color: #1b1f23;
+    background: #fff;
+    border: 1px solid #d1d5da;
+    border-radius: 6px;
+    font-weight: bold;
 }

@@ -2,11 +2,43 @@ let isPlaying = false;
 let currentStep = 0;
 let playbackInterval = null;
 let bpm = 120;
+let selectedSymbolPath = null; // Für Viewboard/Touch-Bedienung
+
+// --- LOGIK FÜR VIEWBOARD / TOUCH (Tippen-Tippen) ---
+
+function selectSymbol(element) {
+    // Falls man das gleiche Symbol nochmal tippt, Auswahl aufheben
+    if (element.classList.contains('selected-symbol')) {
+        element.classList.remove('selected-symbol');
+        selectedSymbolPath = null;
+        return;
+    }
+
+    // Markierung bei allen anderen entfernen
+    document.querySelectorAll('.drag-item').forEach(item => {
+        item.classList.remove('selected-symbol');
+    });
+    
+    // Aktuelles Symbol markieren
+    element.classList.add('selected-symbol');
+    selectedSymbolPath = element.getAttribute('data-src');
+}
+
+function placeSymbol(target) {
+    if (selectedSymbolPath) {
+        // Wenn ein Symbol ausgewählt ist: Platzieren
+        target.style.backgroundImage = `url('${selectedSymbolPath}')`;
+    } else {
+        // Wenn KEIN Symbol ausgewählt ist: Zelle leeren
+        target.style.backgroundImage = '';
+    }
+}
+
+// --- LOGIK FÜR PC (Drag & Drop) ---
 
 function allowDrop(ev) { ev.preventDefault(); }
 
 function drag(ev) { 
-    // Wir nehmen den Pfad aus dem data-src Attribut
     ev.dataTransfer.setData("imagePath", ev.target.getAttribute('data-src')); 
 }
 
@@ -27,12 +59,12 @@ function drop(ev) {
     const path = ev.dataTransfer.getData("imagePath");
     
     if (target.classList.contains('drop-zone') && path) {
-        // Wir setzen das Bild als Hintergrundbild der Zelle
         target.style.backgroundImage = `url('${path}')`;
     }
 }
 
-// Sequencer & Audio
+// --- SEQUENCER & AUDIO ---
+
 function togglePlay() {
     if (isPlaying) stopSequencer();
     else {
@@ -82,4 +114,7 @@ function clearAll() {
     document.querySelectorAll('.drop-zone').forEach(z => {
         z.style.backgroundImage = "";
     });
+    // Auswahl auch aufheben
+    selectedSymbolPath = null;
+    document.querySelectorAll('.drag-item').forEach(item => item.classList.remove('selected-symbol'));
 }

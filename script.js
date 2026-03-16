@@ -4,6 +4,9 @@ let playbackInterval = null;
 let bpm = 120;
 let selectedSymbolPath = null; // Für Viewboard/Touch-Bedienung
 
+// Der AudioContext wird erst beim ersten Klick initialisiert
+let audioCtx = null;
+
 // --- LOGIK FÜR VIEWBOARD / TOUCH (Tippen-Tippen) ---
 
 function selectSymbol(element) {
@@ -66,8 +69,19 @@ function drop(ev) {
 // --- SEQUENCER & AUDIO ---
 
 function togglePlay() {
-    if (isPlaying) stopSequencer();
-    else {
+    // AudioContext beim ersten Klick erstellen (Wichtig für Viewboards!)
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    
+    // Falls der Browser den Ton "schlafen gelegt" hat, wecken wir ihn auf
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
+
+    if (isPlaying) {
+        stopSequencer();
+    } else {
         isPlaying = true;
         document.getElementById("play-btn").innerText = "Pause";
         startSequencer();
@@ -80,7 +94,10 @@ function startSequencer() {
         const zones = document.querySelectorAll('.drop-zone');
         zones.forEach(z => z.classList.remove('active'));
         zones[currentStep].classList.add('active');
+        
+        // Sound-Funktion aufrufen
         playClick();
+        
         currentStep = (currentStep + 1) % 8;
     }, stepDuration);
 }
@@ -96,25 +113,38 @@ function stopSequencer() {
 function updateBPM(val) {
     bpm = val;
     document.getElementById("bpm-value").innerText = val;
-    if (isPlaying) { clearInterval(playbackInterval); startSequencer(); }
+    if (isPlaying) { 
+        clearInterval(playbackInterval); 
+        startSequencer(); 
+    }
 }
 
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function playClick() {
+    // Falls kein AudioContext vorhanden ist (Sicherheit), Funktion abbrechen
+    if (!audioCtx) return;
+
     const osc = audioCtx.createOscillator();
     const env = audioCtx.createGain();
+    
+    // Tonhöhe: Betone die Hauptschläge (1 und 3) etwas höher
     osc.frequency.setValueAtTime(currentStep % 4 === 0 ? 880 : 440, audioCtx.currentTime);
-    env.gain.setValueAtTime(0.05, audioCtx.currentTime);
+    
+    // Lautstärke und "Fade-Out" (Hüllkurve)
+    env.gain.setValueAtTime(0.1, audioCtx.currentTime);
     env.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-    osc.connect(env); env.connect(audioCtx.destination);
-    osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+    
+    osc.connect(env);
+    env.connect(audioCtx.destination);
+    
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.1);
 }
 
 function clearAll() {
     document.querySelectorAll('.drop-zone').forEach(z => {
         z.style.backgroundImage = "";
     });
-    // Auswahl auch aufheben
+    // Auswahl aufheben
     selectedSymbolPath = null;
     document.querySelectorAll('.drag-item').forEach(item => item.classList.remove('selected-symbol'));
 }
